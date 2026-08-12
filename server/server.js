@@ -82,7 +82,7 @@ initWebSocket(server, sessionManager);
 startCleanupScheduler(sessionManager);
 
 // Start Server
-server.listen(config.port, () => {
+server.listen(config.port, '0.0.0.0', () => {
   console.log(`===================================================`);
   console.log(`  PPT Viewer Server running on http://localhost:${config.port}`);
   console.log(`  Frontend served from: ${frontendPath}`);
