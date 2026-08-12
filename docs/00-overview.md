@@ -184,3 +184,4 @@ Cron Scheduler (every 30 minutes)
 | [04-frontend-design.md](./04-frontend-design.md) | HTML pages, CSS design system, JS modules |
 | [05-mobile-app-design.md](./05-mobile-app-design.md) | Flutter app, volume button capture, WS client |
 | [06-security-and-cleanup.md](./06-security-and-cleanup.md) | Security hardening, rate limiting, file cleanup |
+

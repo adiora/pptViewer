@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── DOM References ──
   const dropZone = document.getElementById('drop-zone');
   const fileInput = document.getElementById('file-input');
-  const browseBtn = document.getElementById('browse-btn');
   const fileInfo = document.getElementById('file-info');
   const fileName = document.getElementById('file-name');
   const fileSize = document.getElementById('file-size');
@@ -39,11 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
   init();
 
   function init() {
-    // Browse File Button
-    browseBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      fileInput.click();
-    });
+    // Clear file input on page load to prevent browser cache issues
+    fileInput.value = '';
 
     // Drop Zone Click
     dropZone.addEventListener('click', () => {
@@ -138,7 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // UI States
     uploadBtn.disabled = true;
-    browseBtn.disabled = true;
     dropZone.style.pointerEvents = 'none';
     progressContainer.hidden = false;
     progressFill.style.width = '0%';
@@ -166,7 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Completion Listener
     xhr.onload = () => {
       dropZone.style.pointerEvents = 'auto';
-      browseBtn.disabled = false;
 
       if (xhr.status === 201) {
         try {
@@ -204,7 +198,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Network Error Listener
     xhr.onerror = () => {
       dropZone.style.pointerEvents = 'auto';
-      browseBtn.disabled = false;
       showToast('Network Error', 'Could not connect to server. Check server status.', 'error');
       resetUploadState();
     };

@@ -12,28 +12,33 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Copy package.json and package-lock.json from server folder
-COPY server/package*.json ./
+COPY server/package*.json ./server/
 
-# Install dependencies
-RUN npm install --production
+# Install dependencies in the server directory
+RUN cd server && npm ci --omit=dev
 
-# Copy server and frontend
+# Copy server and frontend directories
 COPY server/ ./server/
 COPY frontend/ ./frontend/
-COPY docs/ ./docs/
+
+# Create uploads directory and fix permissions
+RUN mkdir -p /app/uploads && chown -R node:node /app
+
+# Switch to non-root user for security
+USER node
 
 # Set working directory to server
-WORKDIR /usr/src/app/server
-
-# Expose port
-EXPOSE 3000
+WORKDIR /app/server
 
 # Environment variables
 ENV PORT=3000
 ENV NODE_ENV=production
+
+# Expose port
+EXPOSE 3000
 
 # Start server
 CMD ["node", "server.js"]

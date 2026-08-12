@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
     sessionCode = (urlParams.get('code') || '').trim().toUpperCase();
 
     if (!sessionCode || sessionCode.length !== 6) {
-      alert('Invalid or missing session code. Redirecting to home page.');
       window.location.href = '/';
       return;
     }
@@ -383,7 +382,6 @@ document.addEventListener('DOMContentLoaded', () => {
         connectionDot.classList.add('connection-dot--disconnected');
         showToast('Connection Error', message, 'error');
         setTimeout(() => {
-          alert(`Presentation session error: ${message}`);
           window.location.href = '/';
         }, 3000);
         break;

@@ -90,8 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
             break;
           case 'SESSION_EXPIRED':
             intentionalClose = true;
-            alert('Session expired');
-            reset();
+            statusText.textContent = 'Session expired';
+            statusText.style.color = 'var(--error)';
+            setTimeout(reset, 3000);
             break;
           case 'ERROR':
             statusText.textContent = msg.message || 'Error';
