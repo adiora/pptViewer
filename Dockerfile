@@ -25,7 +25,7 @@ COPY server/ ./server/
 COPY frontend/ ./frontend/
 
 # Create uploads directory and fix permissions
-RUN mkdir -p /app/uploads && chown -R node:node /app
+RUN mkdir -p /app/server/uploads && chown -R node:node /app
 
 # Switch to non-root user for security
 USER node
