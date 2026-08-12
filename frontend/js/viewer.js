@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const connectionDot = document.getElementById('connection-dot');
   const connectionText = document.getElementById('connection-text');
+  const connectionStatus = document.getElementById('connection-status');
+  const slideCounter = document.getElementById('slide-counter');
   
   const toolbar = document.getElementById('toolbar');
   const toolbarCode = document.getElementById('toolbar-code');
@@ -279,9 +281,13 @@ document.addEventListener('DOMContentLoaded', () => {
   function setupToolbarAutoHide() {
     const resetToolbarTimer = () => {
       toolbar.classList.remove('toolbar--hidden');
+      if (slideCounter) slideCounter.classList.remove('ui-fade-hidden');
+      if (connectionStatus) connectionStatus.classList.remove('ui-fade-hidden');
       clearTimeout(toolbarTimer);
       toolbarTimer = setTimeout(() => {
         toolbar.classList.add('toolbar--hidden');
+        if (slideCounter) slideCounter.classList.add('ui-fade-hidden');
+        if (connectionStatus) connectionStatus.classList.add('ui-fade-hidden');
       }, 3000);
     };
 
@@ -289,6 +295,8 @@ document.addEventListener('DOMContentLoaded', () => {
     toolbar.addEventListener('mouseenter', () => {
       clearTimeout(toolbarTimer);
       toolbar.classList.remove('toolbar--hidden');
+      if (slideCounter) slideCounter.classList.remove('ui-fade-hidden');
+      if (connectionStatus) connectionStatus.classList.remove('ui-fade-hidden');
     });
 
     resetToolbarTimer();
@@ -390,8 +398,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── Helper Utilities ──
   function showCommandFeedback(text) {
-    // Show a subtle pill or toast for remote action confirmation
-    showToast('Remote Action', text, 'info');
+    // Hidden per user request to avoid distraction during presentations
+    // showToast('Remote Action', text, 'info');
   }
 
   function showLoadingError(msg) {
