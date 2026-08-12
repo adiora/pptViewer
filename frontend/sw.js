@@ -1,4 +1,5 @@
 const CACHE_NAME = 'ppt-viewer-pwa-v2';
+
 const ASSETS = [
   '/controller.html',
   '/css/styles.css',
@@ -11,7 +12,8 @@ self.addEventListener('install', (e) => {
       return cache.addAll(ASSETS);
     })
   );
-  self.skipWaiting(); // Force the waiting service worker to become the active service worker.
+
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', (e) => {
@@ -26,13 +28,26 @@ self.addEventListener('activate', (e) => {
       );
     })
   );
-  self.clients.claim(); // Claim clients immediately so the new cache is used.
+
+  self.clients.claim();
 });
 
 self.addEventListener('fetch', (e) => {
+  // Don't intercept non-GET requests
+  if (e.request.method !== 'GET') {
+    return;
+  }
+
+  const url = new URL(e.request.url);
+
+  // Don't intercept CDN/external requests
+  if (url.origin !== self.location.origin) {
+    return;
+  }
+
   e.respondWith(
     caches.match(e.request).then((response) => {
-      return response || fetch(e.request).catch(() => console.log('Fetch failed', e.request.url));
+      return response || fetch(e.request);
     })
   );
 });
