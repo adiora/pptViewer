@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
         progressFill.style.width = percent + '%';
         progressText.textContent = percent + '%';
         if (percent >= 100) {
-          progressStatusText.textContent = 'Converting PPTX to slides (LibreOffice)...';
+          progressStatusText.textContent = 'Preparing slides for display...';
         }
       }
     };
@@ -176,6 +176,8 @@ document.addEventListener('DOMContentLoaded', () => {
           if (pwaBtn) pwaBtn.href = `/controller.html?code=${res.code}`;
 
           codeSection.hidden = false;
+          progressContainer.hidden = true;
+          uploadBtn.hidden = true;
           showToast('Upload Successful!', `Session created with code ${res.code}`, 'success');
 
           // Scroll smoothly to code section

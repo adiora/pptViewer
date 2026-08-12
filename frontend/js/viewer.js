@@ -375,9 +375,11 @@ document.addEventListener('DOMContentLoaded', () => {
         break;
 
       case 'remote_disconnected':
-      case 'connected':
-        // Yellow/orange waiting state
         showToast('Remote Disconnected', 'Waiting for mobile controller...', 'warning');
+        break;
+      
+      case 'connected':
+        // Just the yellow/orange waiting state dot, no toast on initial load
         break;
 
       case 'reconnecting':
