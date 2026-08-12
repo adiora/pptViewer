@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Fullscreen PowerPoint slide viewer with mobile remote control integration.">
+  <title>Slide Presenter — PPT Viewer</title>
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+
+  <!-- PDF.js Library from cdnjs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.js"></script>
+  <script>
+    if (window.pdfjsLib) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.js';
+    }
+  </script>
+</head>
+<body class="viewer-body">
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay">
+    <div class="loading-spinner"></div>
+    <div id="loading-text" style="color: var(--text-secondary); font-size: 1.1rem; font-weight: 500;">
+      Loading presentation slides...
+    </div>
+  </div>
+
+  <!-- Slide Canvas Viewport -->
+  <div id="slide-container">
+    <canvas id="slide-canvas"></canvas>
+
+    <!-- Embedded Video Overlay Player -->
+    <div id="video-overlay" hidden>
+      <video id="slide-video" controls></video>
+    </div>
+  </div>
+
+  <!-- Navigation Arrows -->
+  <button type="button" id="prev-arrow" class="nav-arrow nav-arrow--left" title="Previous Slide (←)">
+    ‹
+  </button>
+  <button type="button" id="next-arrow" class="nav-arrow nav-arrow--right" title="Next Slide (→)">
+    ›
+  </button>
+
+  <!-- Floating Slide Counter Pill -->
+  <div id="slide-counter" class="slide-counter">
+    <span id="current-slide">1</span> / <span id="total-slides">1</span>
+  </div>
+
+  <!-- Mobile Remote Connection Status Badge -->
+  <div id="connection-status" class="connection-status">
+    <span id="connection-dot" class="connection-dot"></span>
+    <span id="connection-text">Waiting for mobile remote...</span>
+  </div>
+
+  <!-- Auto-hiding Bottom Toolbar -->
+  <div id="toolbar" class="toolbar">
+    <span id="toolbar-code" class="toolbar__code">Code: ------</span>
+    <button type="button" id="fullscreen-btn" class="btn-secondary btn-sm">
+      ⛶ Fullscreen (F)
+    </button>
+    <a id="back-btn" href="/" class="btn-secondary btn-sm">
+      🏠 Exit to Upload
+    </a>
+  </div>
+
+  <!-- JavaScript Modules -->
+  <script src="js/websocket-client.js"></script>
+  <script src="js/viewer.js"></script>
+</body>
+</html>

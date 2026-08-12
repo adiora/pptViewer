@@ -1,0 +1,19 @@
+# Node / Server
+server/node_modules/
+server/uploads/*
+!server/uploads/.gitkeep
+server/.env
+
+# Mobile
+mobile/ppt_remote/.dart_tool/
+mobile/ppt_remote/build/
+mobile/ppt_remote/.flutter-plugins
+mobile/ppt_remote/.flutter-plugins-dependencies
+mobile/ppt_remote/.packages
+
+# IDE & OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+node_modules/

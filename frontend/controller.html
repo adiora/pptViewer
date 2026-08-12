@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PPT Remote Control</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0a0a0f">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-family);
+    }
+    .controller-card {
+      width: 90%;
+      max-width: 400px;
+      padding: 20px;
+      text-align: center;
+    }
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    .ctrl-btn {
+      flex: 1;
+      margin: 0 10px;
+      padding: 20px;
+      font-size: 24px;
+      border-radius: var(--radius-md);
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-subtle);
+      color: white;
+      cursor: pointer;
+    }
+    .ctrl-btn:active {
+      background: var(--accent-primary);
+    }
+    .status {
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    .volume-instruction {
+      margin-top: 30px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="card controller-card">
+    <h2>Remote Control</h2>
+    <div class="status" id="status-text">Connecting...</div>
+    
+    <div id="setup-section">
+      <input type="text" id="code-input" class="input-code" placeholder="Enter Code" maxlength="6" style="margin-bottom: 10px; width: 100%; text-align: center;">
+      <button id="connect-btn" class="btn-primary" style="width: 100%;">Connect</button>
+    </div>
+
+    <div id="controls-section" hidden>
+      <div class="status" id="slide-info">Slide -- / --</div>
+      <div class="controls">
+        <button id="prev-btn" class="ctrl-btn">◀</button>
+        <button id="next-btn" class="ctrl-btn">▶</button>
+      </div>
+      <div class="controls">
+        <button id="play-btn" class="ctrl-btn" style="font-size: 16px;">Play/Pause Video</button>
+      </div>
+      <div class="volume-instruction">
+        Tip: Ensure your phone's volume is up (but silent) to use physical volume buttons for Prev/Next.
+      </div>
+    </div>
+  </div>
+
+  <audio id="silent-audio" loop src="data:audio/mp3;base64,//OlkAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAAFAAAACwAAAB4AAABGAAAAUQAAAGYAAAB2AAAAhAAAAJMAAACmAAAAtgAAAMYAAADXAAAA5gAAAPcAAAAGAAAAFgAAACYAAAA3AAAARwAAAFcAAABnAAAAeAAAAIgAAACYAAAAqAAAALgAAADJAAAA2QAAAOkAAAD5AAAA//OlkAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAAFAAAACwAAAB4AAABGAAAAUQAAAGYAAAB2AAAAhAAAAJMAAACmAAAAtgAAAMYAAADXAAAA5gAAAPcAAAAGAAAAFgAAACYAAAA3AAAARwAAAFcAAABnAAAAeAAAAIgAAACYAAAAqAAAALgAAADJAAAA2QAAAOkAAAD5AAAA"></audio>
+
+  <script src="js/controller.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "ppt-viewer",
+  "version": "1.0.0",
+  "description": "Remote PowerPoint Presenter with Mobile Volume Button Controls",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "cd server && npm run dev",
+    "install:server": "cd server && npm install"
+  },
+  "keywords": [
+    "powerpoint",
+    "presentation",
+    "pdf.js",
+    "libreoffice",
+    "websocket",
+    "remote-control"
+  ]
+}

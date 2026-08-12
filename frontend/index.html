@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browser-based PowerPoint presentation viewer remotely controlled from mobile phone using volume buttons.">
+  <title>PPT Viewer — Remote PowerPoint Presenter</title>
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+  <!-- App Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="brand-badge">
+      <span>✦</span> Remote PPT Presenter
+    </div>
+    <h1>Present Seamlessly,<br>Control Remotely.</h1>
+    <p class="subtitle">
+      Upload your PowerPoint or PDF slides, get a 6-character code, and navigate full-screen presentations hands-free using mobile hardware volume buttons.
+    </p>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main">
+
+    <!-- Upload Card -->
+    <section id="upload-section" class="card">
+      <h2 class="card-title">
+        <span>📄</span> Upload Presentation
+      </h2>
+
+      <!-- Drag & Drop Zone -->
+      <div id="drop-zone" class="drop-zone">
+        <input type="file" id="file-input" accept=".ppt,.pptx,.pdf" hidden>
+        <div class="drop-zone__content">
+          <div class="drop-zone__icon-wrapper">
+            📁
+          </div>
+          <div class="drop-zone__text">
+            Drag and drop your presentation here
+          </div>
+          <div class="drop-zone__subtext">
+            Supports .pptx, .ppt, and .pdf files up to 50 MB
+          </div>
+          <button type="button" id="browse-btn" class="btn-secondary">
+            Browse Files
+          </button>
+        </div>
+      </div>
+
+      <!-- File Selected Info -->
+      <div id="file-info" class="file-info" hidden>
+        <div class="file-info__details">
+          <span class="file-info__icon">📊</span>
+          <div>
+            <div id="file-name" class="file-info__name">presentation.pptx</div>
+            <div id="file-size" class="file-info__size">2.4 MB</div>
+          </div>
+        </div>
+        <button type="button" id="file-remove-btn" class="file-info__remove" title="Remove file">✕</button>
+      </div>
+
+      <!-- Upload Progress Container -->
+      <div id="progress-container" class="progress-container" hidden>
+        <div class="progress-header">
+          <span id="progress-status-text">Uploading & Converting...</span>
+          <span id="progress-text">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div id="progress-fill" class="progress-bar__fill"></div>
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <button type="button" id="upload-btn" class="btn-primary" disabled>
+        <span>Upload & Generate Code</span>
+        <span>→</span>
+      </button>
+
+      <!-- Quick Join Existing Session -->
+      <div class="join-session-box">
+        <input type="text" id="join-code-input" class="input-code" placeholder="Enter 6-char code" maxlength="6">
+        <button type="button" id="join-btn" class="btn-secondary">
+          Join Session
+        </button>
+      </div>
+    </section>
+
+    <!-- Session Created Card (Initially Hidden) -->
+    <section id="code-section" class="card" hidden>
+      <div class="success-header">
+        <span>✓</span> Session Active & Ready
+      </div>
+      
+      <p class="drop-zone__subtext">Your 6-Character Mobile Controller Code:</p>
+
+      <div class="code-display-wrapper">
+        <span id="session-code" class="session-code">------</span>
+        <button type="button" id="copy-btn" class="btn-icon" title="Copy session code">
+          📋 Copy
+        </button>
+      </div>
+
+      <div class="meta-info" id="session-meta">
+        <span>📊 <strong id="slide-count-meta">0</strong> slides</span>
+        <span>⏳ Expires in 24 hours</span>
+      </div>
+
+      <a id="start-btn" class="btn-primary" href="#">
+        <span>▶ Open Slide Presenter</span>
+      </a>
+
+      <a id="pwa-controller-btn" class="btn-secondary" href="/controller.html" style="margin-top: 10px;">
+        <span>📱 Open Web Remote (Phone)</span>
+      </a>
+    </section>
+
+    <!-- How It Works -->
+    <section class="card">
+      <h2 class="card-title">
+        <span>⚡</span> How It Works
+      </h2>
+
+      <div class="how-it-works-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-icon">📤</div>
+          <div class="step-text">Upload your presentation file (.pptx or .pdf)</div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-icon">🔑</div>
+          <div class="step-text">Get your unique 6-character session code</div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-icon">📱</div>
+          <div class="step-text">Enter code in the mobile app or web remote</div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">4</div>
+          <div class="step-icon">🎮</div>
+          <div class="step-text">Press Vol+ for Next slide, Vol- for Prev slide</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Upload Script -->
+  <script src="js/upload.js"></script>
+</body>
+</html>

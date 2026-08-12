@@ -1,0 +1,16 @@
+{
+  "name": "PPT Remote Control",
+  "short_name": "PPT Remote",
+  "description": "Remote control for PPT Viewer",
+  "start_url": "/controller.html",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#0a0a0f",
+  "icons": [
+    {
+      "src": "/assets/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}
