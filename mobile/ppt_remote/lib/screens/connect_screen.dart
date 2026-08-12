@@ -13,7 +13,7 @@ class ConnectScreen extends StatefulWidget {
 
 class _ConnectScreenState extends State<ConnectScreen> {
   final _codeController = TextEditingController();
-  final _urlController = TextEditingController(text: 'http://192.168.1.100:3000');
+  final _urlController = TextEditingController(text: 'https://slides.77128877.xyz');
   final _storage = const FlutterSecureStorage();
 
   bool _isLoading = false;
@@ -53,7 +53,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
 
     final parsedUri = Uri.tryParse(serverUrl);
     if (parsedUri == null || !parsedUri.hasAuthority) {
-      setState(() => _errorMessage = 'Invalid server URL (e.g. http://192.168.1.50:3000)');
+      setState(() => _errorMessage = 'Invalid server URL (e.g. https://slides.77128877.xyz)');
       return;
     }
 
@@ -185,7 +185,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
                             keyboardType: TextInputType.url,
                             decoration: InputDecoration(
                               prefixIcon: const Icon(Icons.dns_rounded, size: 20),
-                              hintText: 'http://192.168.1.100:3000',
+                              hintText: 'https://slides.77128877.xyz',
                               filled: true,
                               fillColor: Colors.black26,
                               border: OutlineInputBorder(

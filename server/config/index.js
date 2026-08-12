@@ -2,7 +2,7 @@ const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 module.exports = {
-  port: parseInt(process.env.PORT, 10) || 3000,
+  port: parseInt(process.env.PORT, 10) || 54740,
   uploadDir: path.resolve(__dirname, '../uploads'),
   maxFileSize: parseInt(process.env.MAX_FILE_SIZE, 10) || 50 * 1024 * 1024, // 50 MB
   sessionTTL: parseInt(process.env.SESSION_TTL, 10) || 24 * 60 * 60 * 1000, // 24 hours

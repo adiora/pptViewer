@@ -34,11 +34,11 @@ USER node
 WORKDIR /app/server
 
 # Environment variables
-ENV PORT=3000
+ENV PORT=54740
 ENV NODE_ENV=production
 
 # Expose port
-EXPOSE 3000
+EXPOSE 54740
 
 # Start server
 CMD ["node", "server.js"]
