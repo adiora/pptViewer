@@ -29,7 +29,9 @@ const fileFilter = (req, file, cb) => {
   if (allowedMimes.includes(file.mimetype) || allowedExts.includes(ext)) {
     cb(null, true);
   } else {
-    cb(new Error('Only PowerPoint (.ppt/.pptx) and PDF (.pdf) files are allowed.'), false);
+    const err = new Error('Only PowerPoint (.ppt/.pptx) and PDF (.pdf) files are allowed.');
+    err.isValidationError = true;
+    cb(err, false);
   }
 };
 
@@ -58,38 +60,38 @@ function validateMagicBytes(req, res, next) {
 
     const buffer = Buffer.alloc(8);
     fs.read(fd, buffer, 0, 8, 0, (readErr) => {
-      fs.close(fd, () => {});
+      fs.close(fd, () => {
+        if (readErr) {
+          safeDelete(filePath);
+          return res.status(400).json({ error: 'Corrupted file header' });
+        }
 
-      if (readErr) {
-        safeDelete(filePath);
-        return res.status(400).json({ error: 'Corrupted file header' });
-      }
+        let isValid = false;
 
-      let isValid = false;
+        if (ext === '.pptx') {
+          // ZIP magic bytes: PK (0x50 0x4B)
+          isValid = buffer[0] === 0x50 && buffer[1] === 0x4B;
+        } else if (ext === '.ppt') {
+          // OLE2 magic bytes: D0 CF 11 E0
+          isValid = buffer[0] === 0xD0 && buffer[1] === 0xCF && buffer[2] === 0x11 && buffer[3] === 0xE0;
+        } else if (ext === '.pdf') {
+          // PDF magic bytes: %PDF- (0x25 0x50 0x44 0x46 0x2D)
+          isValid = buffer[0] === 0x25 && buffer[1] === 0x50 && buffer[2] === 0x44 && buffer[3] === 0x46 && buffer[4] === 0x2D;
+        } else {
+          // Double-check all for fallback MIME types
+          isValid = (buffer[0] === 0x50 && buffer[1] === 0x4B) ||
+                    (buffer[0] === 0xD0 && buffer[1] === 0xCF && buffer[2] === 0x11 && buffer[3] === 0xE0) ||
+                    (buffer[0] === 0x25 && buffer[1] === 0x50 && buffer[2] === 0x44 && buffer[3] === 0x46 && buffer[4] === 0x2D);
+        }
 
-      if (ext === '.pptx') {
-        // ZIP magic bytes: PK (0x50 0x4B)
-        isValid = buffer[0] === 0x50 && buffer[1] === 0x4B;
-      } else if (ext === '.ppt') {
-        // OLE2 magic bytes: D0 CF 11 E0
-        isValid = buffer[0] === 0xD0 && buffer[1] === 0xCF && buffer[2] === 0x11 && buffer[3] === 0xE0;
-      } else if (ext === '.pdf') {
-        // PDF magic bytes: %PDF- (0x25 0x50 0x44 0x46 0x2D)
-        isValid = buffer[0] === 0x25 && buffer[1] === 0x50 && buffer[2] === 0x44 && buffer[3] === 0x46 && buffer[4] === 0x2D;
-      } else {
-        // Double-check all for fallback MIME types
-        isValid = (buffer[0] === 0x50 && buffer[1] === 0x4B) ||
-                  (buffer[0] === 0xD0 && buffer[1] === 0xCF && buffer[2] === 0x11 && buffer[3] === 0xE0) ||
-                  (buffer[0] === 0x25 && buffer[1] === 0x50 && buffer[2] === 0x44 && buffer[3] === 0x46 && buffer[4] === 0x2D);
-      }
+        if (!isValid) {
+          safeDelete(filePath);
+          console.warn(`[SECURITY] Magic byte check failed for ${req.file.originalname}`);
+          return res.status(400).json({ error: 'Invalid file signature. File is not a valid presentation or PDF.' });
+        }
 
-      if (!isValid) {
-        safeDelete(filePath);
-        console.warn(`[SECURITY] Magic byte check failed for ${req.file.originalname}`);
-        return res.status(400).json({ error: 'Invalid file signature. File is not a valid presentation or PDF.' });
-      }
-
-      next();
+        next();
+      });
     });
   });
 }

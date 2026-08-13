@@ -12,7 +12,7 @@ function startCleanupScheduler(sessionManager) {
   console.log(`[CLEANUP] Starting cleanup scheduler (${config.cleanupInterval})`);
 
   // Run cleanup for any orphaned files on startup
-  cleanupOrphanedFiles(sessionManager);
+  // cleanupOrphanedFiles(sessionManager);
 
   cron.schedule(config.cleanupInterval, async () => {
     console.log('[CLEANUP] Running scheduled session cleanup...');

@@ -46,10 +46,16 @@ function initWebSocket(server, sessionManager) {
 
     // 3. Slot Availability Checks
     if (role === 'presenter' && session.presenterWs && session.presenterWs.readyState === WebSocket.OPEN) {
-      wss.handleUpgrade(request, socket, head, (ws) => {
-        ws.close(4003, 'Presenter already connected');
-      });
-      return;
+      // If existing presenter is stale (missed heartbeat), terminate it
+      if (session.presenterWs.isAlive === false) {
+        session.presenterWs.terminate();
+        session.presenterWs = null;
+      } else {
+        wss.handleUpgrade(request, socket, head, (ws) => {
+          ws.close(4003, 'Presenter already connected');
+        });
+        return;
+      }
     }
 
     if (role === 'controller' && session.controllerWs.length >= config.maxControllersPerSession) {
@@ -179,6 +185,11 @@ function initWebSocket(server, sessionManager) {
         action: msg.action
       });
       console.log(`[WS] Command ${msg.action} relayed to presenter in ${session.code}`);
+    }
+
+    else if (msg.type === 'HEARTBEAT') {
+      // No-op: acknowledge heartbeat from Flutter clients
+      return;
     }
 
     else if (msg.type === 'SLIDE_UPDATE') {

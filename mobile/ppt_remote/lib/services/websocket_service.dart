@@ -85,7 +85,7 @@ class WebSocketService extends ChangeNotifier {
       _heartbeatTimer = Timer.periodic(Constants.heartbeatInterval, (_) {
         if (_channel != null && _isConnected) {
           try {
-            _channel!.sink.add('ping');
+            _channel!.sink.add(jsonEncode({'type': 'HEARTBEAT'}));
           } catch (_) {}
         }
       });

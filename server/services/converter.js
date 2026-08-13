@@ -64,21 +64,15 @@ async function convertToPDF(inputPath) {
  * @returns {number}
  */
 function extractPdfPageCount(pdfPath) {
-  const pdfBuffer = fs.readFileSync(pdfPath);
-  const pdfString = pdfBuffer.toString('latin1');
-
-  // Match /Type /Page references (excluding /Type /Pages)
-  const pageMatches = pdfString.match(/\/Type\s*\/Page[^s]/g);
-  if (pageMatches && pageMatches.length > 0) {
-    return pageMatches.length;
+  try {
+    const stdout = require('child_process').execFileSync('pdfinfo', [pdfPath], { encoding: 'utf8' });
+    const match = stdout.match(/^Pages:\s+(\d+)/m);
+    if (match && match[1]) {
+      return parseInt(match[1], 10);
+    }
+  } catch (err) {
+    console.warn('[CONVERT] pdfinfo failed, defaulting to 1:', err);
   }
-
-  // Fallback: match /Count <N> in catalog /Pages dictionary
-  const countMatches = pdfString.match(/\/Count\s+(\d+)/);
-  if (countMatches && countMatches[1]) {
-    return parseInt(countMatches[1], 10);
-  }
-
   return 1;
 }
 

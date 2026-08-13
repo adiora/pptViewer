@@ -1,9 +1,10 @@
-const CACHE_NAME = 'ppt-viewer-pwa-v2';
+const CACHE_NAME = 'ppt-viewer-pwa-v3';
 
 const ASSETS = [
   '/controller.html',
   '/css/styles.css',
-  '/js/controller.js'
+  '/js/controller.js',
+  '/js/websocket-client.js'
 ];
 
 self.addEventListener('install', (e) => {

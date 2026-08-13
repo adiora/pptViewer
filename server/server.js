@@ -65,7 +65,7 @@ app.use((err, req, res, next) => {
     }
     return res.status(400).json({ error: err.message });
   }
-  if (err.message && err.message.includes('Only')) {
+  if (err.isValidationError) {
     return res.status(400).json({ error: err.message });
   }
   console.error('[ERROR] Unhandled error:', err);
