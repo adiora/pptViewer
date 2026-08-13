@@ -417,6 +417,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('toast-container');
     if (!container) return;
 
+    // Prevent duplicate toasts
+    const existingToasts = container.querySelectorAll('.toast');
+    for (const t of existingToasts) {
+      if (t.querySelector('.toast__title')?.textContent === title &&
+          t.querySelector('.toast__msg')?.textContent === message) {
+        return;
+      }
+    }
+
     const toast = document.createElement('div');
     toast.className = `toast toast--${type}`;
     const icons = { success: '✓', error: '✕', warning: '⚠️', info: 'ℹ️' };
