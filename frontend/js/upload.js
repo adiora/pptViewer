@@ -311,8 +311,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const icons = {
       success: '✓',
       error: '✕',
-      warning: '⚠️',
-      info: 'ℹ️'
+      warning: '',
+      info: ''
     };
 
     toast.innerHTML = `

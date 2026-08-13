@@ -69,6 +69,31 @@ router.post('/upload', uploadLimiter, upload.single('file'), validateMagicBytes,
   }
 });
 
+/**
+ * GET /api/slides/:code
+ * Serve the converted PDF file stream for client rendering in PDF.js
+ */
+router.get('/slides/:code', (req, res) => {
+  const code = (req.params.code || '').trim().toUpperCase();
+
+  if (!CODE_REGEX.test(code)) {
+    return res.status(400).json({ error: 'Invalid code format' });
+  }
+
+  const session = sessionManager.getSession(code);
+
+  if (!session) {
+    return res.status(404).json({ error: 'Session not found or expired' });
+  }
+
+  if (!fs.existsSync(session.pdfPath)) {
+    return res.status(404).json({ error: 'Converted slide file missing' });
+  }
+
+  res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader('Content-Disposition', 'inline');
+  return res.sendFile(session.pdfPath);
+});
 
 /**
  * GET /api/session/:code
