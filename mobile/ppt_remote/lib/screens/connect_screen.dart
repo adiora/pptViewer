@@ -12,7 +12,7 @@ class ConnectScreen extends StatefulWidget {
 
 class _ConnectScreenState extends State<ConnectScreen> {
   final _codeController = TextEditingController();
-  final _serverController = TextEditingController(text: 'http://slides.77128877.xyz:54740');
+  final _serverController = TextEditingController(text: 'https://slides.77128877.xyz');
   bool _isLoading = false;
   String? _errorMessage;
 
@@ -38,7 +38,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
     try {
       final response = await http.get(
         Uri.parse('$serverUrl/api/session/$code'),
-      ).timeout(const Duration(seconds: 5));
+      ).timeout(const Duration(seconds: 30));
 
       if (!mounted) return;
 
@@ -57,7 +57,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
       }
     } catch (e) {
       if (!mounted) return;
-      setState(() => _errorMessage = 'Could not reach server');
+      setState(() => _errorMessage = e.toString());
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
