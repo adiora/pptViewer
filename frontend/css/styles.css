@@ -306,7 +306,15 @@ main.app-main {
   padding-top: 2rem;
   border-top: 1px solid var(--border-subtle);
   display: flex;
+  flex-direction: column;
   gap: 0.75rem;
+}
+.join-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+.join-buttons button {
+  flex: 1;
 }
 .input-code {
   flex: 1;

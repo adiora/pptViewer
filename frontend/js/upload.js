@@ -26,7 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const startBtn = document.getElementById('start-btn');
 
   const joinCodeInput = document.getElementById('join-code-input');
-  const joinBtn = document.getElementById('join-btn');
+  const joinPresenterBtn = document.getElementById('join-presenter-btn');
+  const joinRemoteBtn = document.getElementById('join-remote-btn');
 
   // ── Constants & State ──
   const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
@@ -90,9 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
     copyBtn.addEventListener('click', copyCodeToClipboard);
 
     // Quick Join Session
-    joinBtn.addEventListener('click', handleQuickJoin);
+    if (joinPresenterBtn) joinPresenterBtn.addEventListener('click', () => handleQuickJoin('presenter'));
+    if (joinRemoteBtn) joinRemoteBtn.addEventListener('click', () => handleQuickJoin('remote'));
     joinCodeInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') handleQuickJoin();
+      if (e.key === 'Enter') handleQuickJoin('presenter');
     });
   }
 
@@ -251,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ── Quick Join Session Handler ──
-  function handleQuickJoin() {
+  function handleQuickJoin(role = 'presenter') {
     const code = joinCodeInput.value.trim().toUpperCase();
     if (!code || code.length !== 6) {
       showToast('Invalid Code', 'Please enter a valid 6-character session code', 'warning');
@@ -259,21 +261,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Verify session existence via API before redirecting
-    joinBtn.disabled = true;
-    joinBtn.textContent = 'Verifying...';
+    if (joinPresenterBtn) joinPresenterBtn.disabled = true;
+    if (joinRemoteBtn) joinRemoteBtn.disabled = true;
 
     fetch(`/api/session/${code}`)
       .then(res => {
         if (res.ok) {
-          window.location.href = `/viewer.html?code=${code}`;
+          if (role === 'remote') {
+            window.location.href = `/controller.html?code=${code}`;
+          } else {
+            window.location.href = `/viewer.html?code=${code}`;
+          }
         } else {
           return res.json().then(data => Promise.reject(data.error || 'Session not found'));
         }
       })
       .catch(err => {
         showToast('Cannot Join Session', typeof err === 'string' ? err : 'Session not found or expired', 'error');
-        joinBtn.disabled = false;
-        joinBtn.textContent = 'Join Session';
+        if (joinPresenterBtn) joinPresenterBtn.disabled = false;
+        if (joinRemoteBtn) joinRemoteBtn.disabled = false;
       });
   }
 
